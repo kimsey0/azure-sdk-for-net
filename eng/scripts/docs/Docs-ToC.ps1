@@ -200,7 +200,7 @@ function Get-Toc-Children($package, $version, $docRepoLocation, $folderName) {
     }
     if (!$packageJson) {
         $packageJsonObject.Namespaces = $namespaces
-        $packageJson = ($packageJsonObject | ConvertTo-Json | ConvertFrom-Json)
+        $packageJson = ($packageJsonObject | ConvertTo-Json -Depth 10 | ConvertFrom-Json)
     }
     elseif (!$namespacesExist) {
         $packageJson = $packageJson | Add-Member -MemberType NoteProperty -Name Namespaces -Value $namespaces -PassThru
@@ -210,7 +210,7 @@ function Get-Toc-Children($package, $version, $docRepoLocation, $folderName) {
     }
     # Keep the json file up to date.
     try {
-        Set-Content $packageJsonPath -Value ($packageJson | ConvertTo-Json)
+        Set-Content $packageJsonPath -Value ($packageJson | ConvertTo-Json -Depth 10)
         return $namespaces
     }
     catch {
