@@ -304,5 +304,5 @@ if (Test-Path "Function:$UpdateDocsMsTocFn") {
   $output = &$UpdateDocsMsTocFn -toc $output
 }
 
-$outputYaml = ConvertTo-Yaml $output
+$outputYaml = ConvertTo-Yaml $output -Depth 10
 Set-Content -Path $OutputLocation -Value $outputYaml
