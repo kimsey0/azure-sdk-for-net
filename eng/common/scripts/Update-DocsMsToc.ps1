@@ -303,6 +303,4 @@ $output = @([PSCustomObject]@{
 if (Test-Path "Function:$UpdateDocsMsTocFn") {
   $output = &$UpdateDocsMsTocFn -toc $output
 }
-
-$outputYaml = ConvertTo-Yaml $output
-Set-Content -Path $OutputLocation -Value $outputYaml
+ConvertTo-Yaml $output -OutFile $OutputLocation -Force

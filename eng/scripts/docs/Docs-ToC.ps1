@@ -192,7 +192,7 @@ function Get-Toc-Children($package, $version, $docRepoLocation, $folderName) {
         return $originalNamespaces
     }
     if (!$jsonExists) {
-        New-Item $packageJsonPath -Type File -Force
+        New-Item $packageJsonPath -Type File -Force | Out-Null
     }
     $namespaces = Fetch-NamespacesFromNupkg -package $package -version $version
     if (!$namespaces) {
@@ -200,7 +200,7 @@ function Get-Toc-Children($package, $version, $docRepoLocation, $folderName) {
     }
     if (!$packageJson) {
         $packageJsonObject.Namespaces = $namespaces
-        $packageJson = ($packageJsonObject | ConvertTo-Json -Depth 10 | ConvertFrom-Json)
+        $packageJson = ($packageJsonObject | ConvertTo-Json | ConvertFrom-Json)
     }
     elseif (!$namespacesExist) {
         $packageJson = $packageJson | Add-Member -MemberType NoteProperty -Name Namespaces -Value $namespaces -PassThru
@@ -210,7 +210,7 @@ function Get-Toc-Children($package, $version, $docRepoLocation, $folderName) {
     }
     # Keep the json file up to date.
     try {
-        Set-Content $packageJsonPath -Value ($packageJson | ConvertTo-Json -Depth 10)
+        Set-Content $packageJsonPath -Value ($packageJson | ConvertTo-Json)
         return $namespaces
     }
     catch {
